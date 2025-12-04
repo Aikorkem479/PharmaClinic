@@ -1,0 +1,97 @@
+@model PharmaClinic.Models.ExplainAnalysisViewModel
+
+@{
+    ViewData["Title"] = "Анализді түсіндіру (AI)";
+}
+
+<div class="page-body container mt-4">
+    <h1 class="mb-3">Анализді түсіндіру (AI)</h1>
+
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="appointment-card">
+                <form asp-action="ExplainAnalysis"
+                      asp-controller="Home"
+                      method="post"
+                      enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="SelectedTestType" class="form-label">Талдау түрі</label>
+                        <select asp-for="SelectedTestType" class="form-select">
+                            <option value="">-- Талдауды таңдаңыз --</option>
+                            <option value="Жалпы қан талдауы">Жалпы қан талдауы</option>
+                            <option value="Липидограмма">Липидограмма</option>
+                            <option value="Аллергияға IgE">Аллергияға IgE</option>
+                        </select>
+                        <span asp-validation-for="SelectedTestType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="UserQuestion" class="form-label">
+                            Сұрағыңыз немесе анализ нәтижесінен үзінді
+                        </label>
+                        <textarea asp-for="UserQuestion" rows="4" class="form-control"
+                                  placeholder="Мысалы: 'Гемоглобин 110, бұл қауіпті ме?' немесе 'IgE 220 шықты, нені білдіреді?'"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="AnalysisPhoto" class="form-label">
+                            Анализ фотоcын тіркеу (қаласаңыз)
+                        </label>
+                        <input asp-for="AnalysisPhoto"
+                               type="file"
+                               accept="image/*"
+                               class="form-control" />
+                        <div class="form-text">
+                            Фото тек демонстрация үшін. Нақты диагноз қоймайды, тек жалпы түсіндірме беріледі.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">AI-дан түсіндіру сұрау</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="ai-suggestions">
+                <h5>Мысалы, осылай сұрауға болады:</h5>
+
+                <div class="ai-suggestions-section-title">Жалпы қан талдауы</div>
+                <ul class="ai-suggestions-list">
+                    <li>«Гемоглобин 105, әлсіздік бар – бұл қаназдық па?»</li>
+                    <li>«Лейкоциттер жоғары – инфекция ма?»</li>
+                </ul>
+
+                <div class="ai-suggestions-section-title">Липидограмма</div>
+                <ul class="ai-suggestions-list">
+                    <li>«ЛПНП 4.8, ЛПВП төмен – диетаға не істеу керек?»</li>
+                    <li>«Холестерин шамадан тыс жоғары болса, кардиологқа қашан бару керек?»</li>
+                </ul>
+
+                <div class="ai-suggestions-section-title">Аллергия</div>
+                <ul class="ai-suggestions-list">
+                    <li>«IgE 220, баламда қандай аллерген болуы мүмкін?»</li>
+                    <li>«Мезгілдік аллергия, анализ нәтижесін қалай түсінемін?»</li>
+                </ul>
+
+                <div class="whatsapp-tip mt-3">
+                    AI тек жалпы түсіндірме береді. Егер кеуде тұсыңыз қатты ауырып, дем жетпей қалса
+                    немесе бет-ерін ісініп, тыныс тарылса – сайтқа емес, бірден <strong>103</strong> нөміріне
+                    қоңырау шалу керек.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.AiAnswer))
+    {
+        <div class="mt-4 ai-answer-card">
+            <h4>AI-дың түсіндірмесі</h4>
+            <pre style="white-space:pre-wrap;">@Model.AiAnswer</pre>
+            <p class="ai-answer-note">
+                Бұл жауап медициналық кеңесті толық алмастырмайды. Қорытынды шешімді тек тірі дәрігер қоя алады.
+            </p>
+        </div>
+    }
+</div>

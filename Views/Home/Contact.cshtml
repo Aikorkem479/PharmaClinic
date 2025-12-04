@@ -1,0 +1,63 @@
+@model PharmaClinic.Models.ContactViewModel
+
+@{
+    ViewData["Title"] = "Байланыс";
+}
+
+<h2 class="mb-4">Байланыс</h2>
+
+@if (Model.IsSent)
+{
+    <div class="alert alert-success">
+        Хабарламаңыз қабылданды. Жақын уақытта сізбен хабарласамыз.
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger">
+        Барлық қажетті өрістерді толтырыңыз.
+    </div>
+}
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="contact-card">
+            <form asp-action="Contact" method="post">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Аты-жөніңіз</label>
+                    <input asp-for="Name" class="form-control" placeholder="Атыңызды жазыңыз" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label">Телефон нөмірі</label>
+                    <input asp-for="Phone" class="form-control" placeholder="+7..." />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Message" class="form-label">Хабарлама</label>
+                    <textarea asp-for="Message" class="form-control" rows="4"
+                              placeholder="Сұрағыңызды жазыңыз"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Жіберу</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="info-card">
+            <h5>Мекенжай</h5>
+            <p>Атырау қ., ...</p>
+
+            <h5>Телефон</h5>
+            <p>+7 (777) 000-00-00</p>
+
+            <h5>Жұмыс уақыты</h5>
+            <p>Дс–Жм: 9:00 – 18:00</p>
+
+            <h5>Қосымша</h5>
+            <p>
+                Онлайн жазылу немесе сұрақ қою үшін форманы толтырыңыз.
+                Менеджеріміз сізге хабарласып, ыңғайлы уақытты нақтылайды.
+            </p>
+        </div>
+    </div>
+</div>

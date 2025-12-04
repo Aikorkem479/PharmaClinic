@@ -1,0 +1,161 @@
+@{
+    ViewData["Title"] = "Басты бет";
+}
+
+<div class="container page-body">
+
+    <!-- HERO БЛОК -->
+    <div class="pharma-hero-wrapper">
+        <div class="pharma-hero-bg">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <div class="pharma-hero-badge mb-3">
+                        КАРДИОЛОГИЯ · АЛЛЕРГОЛОГИЯ · БАСҚА МАМАНДАР
+                    </div>
+
+                    <h1 class="pharma-hero-title mb-3">
+                        Отбасыңыздың <span class="pharma-hero-accent">денсаулығын</span> бір жерде бақылаймыз
+                    </h1>
+
+                    <p class="pharma-hero-subtitle mb-4">
+                        Pharma Clinic – бірнеше маман (кардиолог, аллерголог, офтальмолог, невролог,
+                        хирург, педиатр) қызметі, онлайн жазылу, анализге дайындалу жөніндегі
+                        чек-листтер және нәтижені қарапайым тілмен түсіндіретін шағын AI-көмекші бар сайт.
+                    </p>
+
+                    <div class="pharma-hero-buttons mb-3">
+                        <a asp-action="Doctors" class="btn btn-primary me-2">
+                            Дәрігерге жазылу
+                        </a>
+                        <a asp-action="ExplainAnalysis" class="btn btn-outline-light">
+                            AI-дан анализ туралы сұрау
+                        </a>
+                    </div>
+
+                    <div class="pharma-hero-stats">
+                        <div class="pharma-hero-stat">
+                            <div class="num">6</div>
+                            <div class="label">профильді дәрігер</div>
+                        </div>
+                        <div class="pharma-hero-stat">
+                            <div class="num">4+</div>
+                            <div class="label">мамандық: кардио, аллергия, көз, невро, т.б.</div>
+                        </div>
+                        <div class="pharma-hero-stat">
+                            <div class="num">AI</div>
+                            <div class="label">анализді түсіндіруге көмектеседі</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="pharma-hero-image-card">
+                        <div class="hero-illustration">
+                            <div class="hero-illustration-top">
+                                <div>
+                                    <div class="hero-pill">
+                                        ЖҮРЕК · КӨЗ · ЖҮЙКЕ · БАЛАЛАР
+                                    </div>
+                                    <div class="hero-ill-title">
+                                        Кешенді бақылау
+                                    </div>
+                                    <div class="hero-ill-text">
+                                        Жүрек, тыныс алу, аллергия, көру қабілеті және жүйке жүйесі
+                                        – бәрі бір платформада. Онлайн жазылу және AI кеңесі бір жерде.
+                                    </div>
+                                </div>
+                                <div class="hero-icon-main">
+                                    🩺
+                                </div>
+                            </div>
+
+                            <div class="hero-illustration-bottom">
+                                <div class="hero-chip">
+                                    <span class="emoji">🫀</span>
+                                    <span>Кардиолог</span>
+                                </div>
+                                <div class="hero-chip">
+                                    <span class="emoji">🌿</span>
+                                    <span>Аллерголог</span>
+                                </div>
+                                <div class="hero-chip">
+                                    <span class="emoji">👁️</span>
+                                    <span>Көз дәрігері</span>
+                                </div>
+                                <div class="hero-chip">
+                                    <span class="emoji">🧠</span>
+                                    <span>Невролог</span>
+                                </div>
+                                <div class="hero-chip">
+                                    <span class="emoji">🧒</span>
+                                    <span>Педиатр</span>
+                                </div>
+                                <div class="hero-chip">
+                                    <span class="emoji">🤖</span>
+                                    <span>AI-помощник</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ҚЫЗМЕТТЕР / САЙТТА НЕ БАР -->
+    <section class="pharma-services text-center">
+        <h2 class="pharma-section-title mb-2">Сайтта не бар?</h2>
+
+        <p class="pharma-section-subtitle mb-4">
+            Мұнда кардиолог, аллерголог, көз дәрігері, невролог, хирург және педиатр туралы қысқа ақпарат,
+            онлайн жазылу формасы, анализге дайындалуға арналған чек-лист және нәтижені түсіндіруге
+            көмектесетін AI-көмекші бар.
+        </p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="pharma-service-card h-100 text-start">
+                    <div class="icon-circle">❤️</div>
+                    <h5>Кардиолог және аллерголог</h5>
+                    <p>
+                        Жүрек-қан тамыр жүйесін тексеру, ЭКГ, холестерин, IgE және басқа анализдер.
+                        Қауіп факторларын бағалау және өмір салты бойынша ұсыныстар.
+                    </p>
+                    <a asp-action="Doctors" class="service-link">
+                        Кардио/аллерго дәрігерлерін көру →
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pharma-service-card h-100 text-start">
+                    <div class="icon-circle">🧑‍⚕️</div>
+                    <h5>Басқа мамандар</h5>
+                    <p>
+                        Офтальмолог (көз дәрігері), невролог, хирург, педиатр – отбасы мүшелеріне арналған
+                        толыққанды кеңес, жоспарлы қаралу және бақылау.
+                    </p>
+                    <a asp-action="Doctors" class="service-link">
+                        Барлық дәрігерлер тізімі →
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="pharma-service-card h-100 text-start">
+                    <div class="icon-circle">🤖</div>
+                    <h5>AI-помощник по анализам</h5>
+                    <p>
+                        Анализ түрін және негізгі көрсеткіштерді жазсаңыз, сервис нәтижені
+                        қорқытпайтын, түсінікті тілмен түсіндіреді. Бұл – оқу жобасы, нақты диагноз емес.
+                    </p>
+                    <a asp-action="ExplainAnalysis" class="service-link">
+                        AI-дан түсіндіруді сұрау →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

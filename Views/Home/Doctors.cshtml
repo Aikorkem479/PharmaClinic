@@ -1,0 +1,231 @@
+@model IEnumerable<PharmaClinic.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Дәрігерлер";
+}
+
+<div class="container page-body">
+
+    <h2 class="mb-4">Біздің дәрігерлер</h2>
+
+    <div class="row g-4">
+        @foreach (var doc in Model)
+        {
+            <div class="col-md-6">
+                <div class="doctor-card h-100">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div class="doctor-photo-wrap">
+                                @if (!string.IsNullOrEmpty(doc.ImageUrl))
+                                {
+                                    <img src="@doc.ImageUrl" alt="@doc.Name" class="doctor-photo" />
+                                }
+                                else
+                                {
+                                    <div class="doctor-photo-placeholder">
+                                        @doc.Name[0]
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="doctor-card-body">
+                                <h5 class="doctor-name mb-1">
+                                    @doc.Name
+                                    @if (doc.Gender == "F")
+                                    {
+                                        <span class="doctor-gender-badge female">♀ Әйел дәрігер</span>
+                                    }
+                                    else if (doc.Gender == "M")
+                                    {
+                                        <span class="doctor-gender-badge male">♂ Ер дәрігер</span>
+                                    }
+                                </h5>
+                                <p class="doctor-spec mb-2">@doc.Specialty</p>
+
+                                <p class="mb-2">@doc.Description</p>
+
+                                <p class="mb-0"><strong>Стаж:</strong> @doc.ExperienceYears жыл</p>
+                                <p class="mb-0"><strong>Мекенжай:</strong> @doc.District</p>
+                                <p class="mb-2">
+                                    <strong>Медорталық:</strong> @doc.ClinicName
+                                    @if (!string.IsNullOrEmpty(doc.MapUrl))
+                                    {
+                                        <a href="@doc.MapUrl" target="_blank"> (картаны көру)</a>
+                                    }
+                                </p>
+
+                                <div class="doctor-schedule mt-2">
+                                    <table class="schedule-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Күн</th>
+                                                <th>Уақыты</th>
+                                                <th>Статус</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Дүйсенбі</td>
+                                                <td>10:00 – 12:00</td>
+                                                <td class="schedule-status-free">Бос</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Сәрсенбі</td>
+                                                <td>15:00 – 17:00</td>
+                                                <td class="schedule-status-busy">Толы (клиенттер жазылған)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Жұма</td>
+                                                <td>09:00 – 11:00</td>
+                                                <td class="schedule-status-free">Бос</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="schedule-note mb-0">
+                                        * Кесте демонстрациялық. Нақты уақытты тіркеу кезінде әкімшіден нақтылау қажет.
+                                    </p>
+                                </div>
+
+                                <div class="mt-3">
+                                    <a asp-action="Book"
+                                       asp-route-doctorName="@doc.Name"
+                                       class="btn btn-primary btn-sm">
+                                        Онлайн жазылу
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- ПІКІР ҚАЛДЫРУ ФОРМАСЫ -->
+    <section class="mt-5">
+        <h3 class="mb-3">Пікір қалдыру</h3>
+
+        @if (ViewBag.ReviewError != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ReviewError</div>
+        }
+
+        <form asp-action="DoctorsReview" method="post">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form-label">Аты-жөніңіз</label>
+                <input type="text" name="patientName" class="form-control" placeholder="Атыңызды жазыңыз" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Қай дәрігерге пікір жазасыз?</label>
+                <select name="doctorName" class="form-select">
+                    @foreach (var d in Model)
+                    {
+                        <option value="@d.Name">@d.Name (@d.Specialty)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Пікіріңіз</label>
+                <textarea name="comment" rows="3" class="form-control"
+                          placeholder="Қызмет, қарым-қатынас, түсіндірме туралы ойыңыз"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Пікір жіберу</button>
+        </form>
+    </section>
+
+    <!-- ПАЦИЕНТ ПІКІРЛЕРІ -->
+    <section class="patient-reviews-section">
+        <h3 class="patient-reviews-title">Пациент пікірлері</h3>
+        <p class="patient-reviews-subtitle">
+            Төмендегі пікірлер оқу жобасы үшін жазылған, бірақ шынайы өмірдегі жағдайларға ұқсас.
+            Сайттың мақсаты – дәрігерге жазылу және анализ түсіндіру процесін түсінікті қылу.
+        </p>
+
+        <div class="row g-3">
+            @* Жаңадан қосылған қолданушы пікірі *@
+            @if (ViewBag.ReviewSent == true)
+            {
+                <div class="col-md-4">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">
+                                @ViewBag.ReviewInitial
+                            </div>
+                            <div>
+                                <div class="review-name">@ViewBag.ReviewPatient</div>
+                                <div class="review-meta">@ViewBag.ReviewMeta</div>
+                            </div>
+                        </div>
+                        <div class="review-text">
+                            @ViewBag.ReviewText
+                        </div>
+                        <span class="review-tag">Пайдаланушы пікірі</span>
+                        <div class="review-quote-mark">“</div>
+                    </div>
+                </div>
+            }
+
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Айгүл, 35 жаста</div>
+                            <div class="review-meta">Кардиологқа қаралу</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        «Бірнеше ай бойы жүрегім анда-санда шаншып жүретін. Кардиологқа жазылып,
+                        ЭКГ жасатты. Нәтижені қағаздағы терминдермен емес, қарапайым тілмен түсіндіріп берді.
+                        Енді қан қысымымды, пульсімді қалай бақылайтынымды білемін».
+                    </div>
+                    <span class="review-tag">Кардиолог</span>
+                    <div class="review-quote-mark">“</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">Е</div>
+                        <div>
+                            <div class="review-name">Ерлан, 29 жаста</div>
+                            <div class="review-meta">Баласының аллергиясы</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        «Баламның терісінде бөртпе шығып, аллерголог IgE талдауын тапсыруды сұрады.
+                        Нәтижесінде нақты қандай аллергендер маңызды болуы мүмкін екенін түсіндіріп берді.
+                        Қорықпай, жоспарлы түрде ем бастадық».
+                    </div>
+                    <span class="review-tag">Аллерголог + AI түсіндіру</span>
+                    <div class="review-quote-mark">“</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">С</div>
+                        <div>
+                            <div class="review-name">Сандуғаш, 42 жаста</div>
+                            <div class="review-meta">Липидограмма нәтижесі</div>
+                        </div>
+                    </div>
+                    <div class="review-text">
+                        «Липидограммада “ЛПНП жоғары” деген жазу шыққанда қатты қорықтым.
+                        Сайттағы “анализді AI түсіндіру” бөлімі жалпы неге мән беру керегін түсіндіруге көмектесті.
+                        Кейін нәтижені кардиологпен бірге қарап, нақты жоспар құрдық».
+                    </div>
+                    <span class="review-tag">Липидограмма + AI</span>
+                    <div class="review-quote-mark">“</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,92 @@
+@model PharmaClinic.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Онлайн жазылу";
+}
+
+<h2 class="mb-4">Онлайн жазылу</h2>
+
+@if (Model.IsSubmitted)
+{
+    <div class="alert alert-success">
+        @Model.DoctorName дәрігеріне жазылу өтініміңіз қабылданды!<br />
+        Күні: <strong>@Model.SelectedDate</strong>, уақыты: <strong>@Model.SelectedTimeSlot</strong>.<br />
+        Әкімші сізбен хабарласып, жазылуды нақтылайды.
+    </div>
+
+    <div class="contact-card whatsapp-tip mt-3">
+        <h5 class="mb-2">Келесі қадам (нақты өмірде қалай істеледі)</h5>
+        <p class="mb-2">
+            Осы беттегі жазылу деректерінің <strong>скриншотын</strong> жасап,
+            клиниканың WhatsApp нөміріне жіберіңіз.
+        </p>
+        <p class="mb-2">
+            <strong>WhatsApp:</strong>
+            <a href="https://wa.me/77770000000" target="_blank">
+                +7 (777) 000-00-00
+            </a>
+        </p>
+        <p class="small text-muted mb-0">
+            Бұл оқу жобасы, бірақ шынайы клиникада онлайн жазылуды дәл осылай ұйымдастыруға болады:
+            пациент скриншот жібереді, әкімші жүйеде жазып қояды.
+        </p>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="contact-card">
+                <h5 class="mb-3">@Model.DoctorName дәрігеріне жазылу</h5>
+
+                @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+                {
+                    <div class="alert alert-danger">
+                        Барлық міндетті өрістерді дұрыс толтырыңыз.
+                    </div>
+                }
+
+                <form asp-action="Book" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="DoctorName" />
+
+                    <div class="mb-3">
+                        <label asp-for="PatientName" class="form-label">Аты-жөніңіз</label>
+                        <input asp-for="PatientName" class="form-control" placeholder="Атыңызды жазыңыз" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="IIN" class="form-label">ЖСН (ИИН)</label>
+                        <input asp-for="IIN" class="form-control" placeholder="12 сан" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Күні</label>
+                        <select asp-for="SelectedDate" class="form-select">
+                            <option value="">-- Күнді таңдаңыз --</option>
+                            @foreach (var d in Model.AvailableDates)
+                            {
+                                <option value="@d">@d</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Уақыты</label>
+                        <select asp-for="SelectedTimeSlot" class="form-select">
+                            <option value="">-- Уақытты таңдаңыз --</option>
+                            @foreach (var t in Model.AvailableTimeSlots)
+                            {
+                                <option value="@t">@t</option>
+                            }
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Жазылу өтінімін жіберу
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
